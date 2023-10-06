@@ -1,0 +1,17 @@
+# C
+*.o
+*.a
+*.so
+
+# Project Specific
+build/
+files/
+
+# MacOS
+.DS_Store
+.locale
+
+# Editors/IDEs
+.vscode
+.idea
+*.sw*
