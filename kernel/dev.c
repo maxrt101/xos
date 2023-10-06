@@ -29,11 +29,11 @@ void dev_init() {
     return;
   }
 
-	for (u32 i = 0; i < board->device_count; i++) {
-	  if (board->devices[i].init) {
-			board->devices[i].init();
-		}
-	}
+  for (u32 i = 0; i < board->device_count; i++) {
+    if (board->devices[i].init) {
+      board->devices[i].init();
+    }
+  }
 }
 
 // void dev_register(dev_t* dev) {}

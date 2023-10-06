@@ -8,18 +8,18 @@ MEMORY
 
 SECTIONS
 {
-	_kernel_start = ORIGIN(FLASH) + .;
+  _kernel_start = ORIGIN(FLASH) + .;
 
   .text :
   {
-		_text_start = .;
+    _text_start = .;
     _isr_vector_start = .;
     KEEP(*(.isr_vector))
     _isr_vector_end = .;
     *(.text)
     *(.text.*)
     *(.rodata)
-		_text_end = .;
+    _text_end = .;
     _init_data_start = .;
   } >FLASH
 

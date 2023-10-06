@@ -9,7 +9,7 @@
 irq_handler_t irq_vector[IRQ_COUNT] = {0};
 
 void irq_handle(int irq) {
-	klog_debug("irq: %d", irq);
+  klog_debug("irq: %d", irq);
 
   if (irq_vector[irq]) {
     irq_vector[irq]();

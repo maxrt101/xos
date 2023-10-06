@@ -20,19 +20,19 @@ void kmain(void) {
   board_init();
   dev_init();
 
-	xos_config_get()->console = "usart2";
+  xos_config_get()->console = "usart2";
 
-	printf("xos dev %s\n", XOS_VERSION);
+  printf("xos dev %s\n", XOS_VERSION);
 
   klog_debug_on();
 
-	klog_info("kernel end 0x%x", &_kernel_end);
+  klog_info("kernel end 0x%x", &_kernel_end);
 
-	kalloc_init();
+  kalloc_init();
 
-	irq_register_handler(IRQ_SYS_TICK, tick);
+  irq_register_handler(IRQ_SYS_TICK, tick);
 
-	// Tests
+  // Tests
 
   void* var = kalloc(sizeof(i32));
 
@@ -40,7 +40,7 @@ void kmain(void) {
 
   *x = 124;
 
-	printf("*x = %d\nx = 0x%x\n", *x, (u32) x);
+  printf("*x = %d\nx = 0x%x\n", *x, (u32) x);
 
   kfree(var);
 

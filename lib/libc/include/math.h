@@ -3,8 +3,6 @@
 
 #define abs(n) (((n) < 0) ? -(n) : (n))
 
-// abs
-// pow
-// sqrt
+// abs, pow, sqrt
 
 #endif /* _XOS_LIBC_MATH_H_ */

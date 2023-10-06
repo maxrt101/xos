@@ -6,6 +6,7 @@
 # Project Specific
 build/
 files/
+DAC_OUT_PUT*
 
 # MacOS
 .DS_Store

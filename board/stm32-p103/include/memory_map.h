@@ -49,11 +49,11 @@
 #define USART_GTPR    0x06
 
 // SysTick Memory Map
-#define SYSTICK		    ((volatile u32) 0xE000E010)
-#define SYSTICK_CTRL	((volatile u32*) (SYSTICK + 0x00))
-#define SYSTICK_LOAD	((volatile u32*) (SYSTICK + 0x04))
-#define SYSTICK_VAL	  ((volatile u32*) (SYSTICK + 0x08))
-#define SYSTICK_CALIB	((volatile u32*) (SYSTICK + 0x0C))
+#define SYSTICK       ((volatile u32) 0xE000E010)
+#define SYSTICK_CTRL  ((volatile u32*) (SYSTICK + 0x00))
+#define SYSTICK_LOAD  ((volatile u32*) (SYSTICK + 0x04))
+#define SYSTICK_VAL   ((volatile u32*) (SYSTICK + 0x08))
+#define SYSTICK_CALIB ((volatile u32*) (SYSTICK + 0x0C))
 
 // Addresses from ld file
 

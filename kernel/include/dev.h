@@ -28,9 +28,7 @@ typedef struct dev_t {
 
 void dev_blank(dev_t* dev);
 void dev_init();
-// void dev_register(dev_t* dev);
 dev_t* dev_get(const char* name);
 bool dev_has_tag(dev_t* dev, const char* tag);
-// dev_t* dev_get(const char*);
 
 #endif /* _XOS_DEV_H_ */
