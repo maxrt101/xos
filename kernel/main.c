@@ -35,14 +35,19 @@ void kmain(void) {
   // Tests
 
   void* var = kalloc(sizeof(i32));
+  void* var2 = kalloc(sizeof(i32));
 
   i32* x = (i32*) var;
+  i32* y = (i32*) var2;
 
   *x = 124;
+  *y = 45003;
 
   printf("*x = %d\nx = 0x%x\n", *x, (u32) x);
+  printf("*y = %d\ny = 0x%x\n", *y, (u32) y);
 
   kfree(var);
+  kfree(var2);
 
   while (1) {}
 }

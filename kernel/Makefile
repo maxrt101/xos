@@ -1,8 +1,10 @@
 # xos kernel
 
+include $(TOPDIR)/include/utils.mk
+
 PKG := kernel
 SRC := main.c startup.c irq.c board.c dev.c kalloc.c config.c io.c klog.c abort.c
-TARGET_CFLAGS += -DXOS_KERNEL=1
+TARGET_CFLAGS += -DXOS_KERNEL=1 $(call GetConfigOptionsByPrefix,CONFIG_KERNEL)
 
 include $(TOPDIR)/include/package.mk
 

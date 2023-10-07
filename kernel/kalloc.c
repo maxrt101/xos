@@ -13,6 +13,12 @@
 #define ROUND_DOWN(x, alignment) ((x) & ~((alignment) - 1))
 #define ROUND_UP(x, alignment) (((x) + (alignment) - 1) & ~((alignment) - 1))
 
+#if CONFIG_KERNEL_KMALLOC_DEBUG == 1
+#define KMALLOC_LOG(...) klog_info(__VA_ARGS__)
+#else
+#define KMALLOC_LOG(...)
+#endif
+
 typedef enum kalloc_flags_t {
   KALLOC_USED = 0x1
 } kalloc_flags_t;
@@ -52,7 +58,6 @@ void kalloc_setup(u32 start, u32 end) {
   s_blocks = block;
 }
 
-// TODO: test
 static void kdefrag(kalloc_memblock_t* block) {
   if (!block) {
     return;
@@ -60,7 +65,7 @@ static void kdefrag(kalloc_memblock_t* block) {
 
   if (!(block->flags & KALLOC_USED)) {
     if (block->next && !(block->next->flags & KALLOC_USED)) {
-      klog_debug("kdefrag: merging %p(size=%u) and %p(size=%u)", block, block->size, block->next, block->next->size);
+      KMALLOC_LOG("kdefrag: merging %p(size=%u) and %p(size=%u)", block, block->size, block->next, block->next->size);
       block->next = block->next->next;
       block->size += block->next->size;
       kdefrag(block);
@@ -82,14 +87,24 @@ static void* _kalloc(kalloc_memblock_t* block, size_t size) {
     }
     return NULL;
   } else {
-    if (block->size > size) {
-      kalloc_memblock_t* new_block = (kalloc_memblock_t*) ( ((u8*) block) + block->size - size - sizeof(kalloc_memblock_t));
+    if (block->size >= size) {
+      kalloc_memblock_t* new_block = (kalloc_memblock_t*) (((u8*) block) + block->size - size - sizeof(kalloc_memblock_t));
+
       new_block->next = NULL;
       new_block->size = size;
       new_block->flags = KALLOC_USED;
+
+      if (block->next) {
+        new_block->next = block->next;
+      }
+
       block->next = new_block;
-      u32 result = (((u32) new_block) - sizeof(kalloc_memblock_t));
-      klog_debug("kalloc(%p, %d) block=%p result=0x%x", block, size, new_block, result);
+      block->size -= (u32) size + (u32) sizeof(kalloc_memblock_t);
+
+      u32 result = (((u32) new_block) + sizeof(kalloc_memblock_t));
+
+      KMALLOC_LOG("kalloc(%p, %u) block=%p result=0x%x", block, size, new_block, result);
+
       return (void*) result;
     } else {
       if (block->next) {
@@ -109,9 +124,8 @@ static void _kfree(kalloc_memblock_t* block, void* ptr) {
     klog_error("kfree: bad block");
     return;
   }
-
-  if (ptr == (u8*) block - sizeof(kalloc_memblock_t)) {
-    klog_debug("kfree(%p) block=0x%x size=0x%x", ptr, block, block->size);
+  if (ptr == (u8*) block + sizeof(kalloc_memblock_t)) {
+    KMALLOC_LOG("kfree(%p) block=0x%x size=0x%x", ptr, block, block->size);
     block->flags &= ~KALLOC_USED;
   } else {
     if (block->next) {
