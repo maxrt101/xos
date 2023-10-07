@@ -16,10 +16,6 @@ void dev_blank(dev_t* dev) {
   dev->ctrl = NULL;
   dev->read = NULL;
   dev->write = NULL;
-
-  for (u32 i = 0; i < DEV_TAG_MAX; ++i) {
-    dev->tags[i] = NULL;
-  }
 }
 
 void dev_init() {
@@ -36,8 +32,6 @@ void dev_init() {
   }
 }
 
-// void dev_register(dev_t* dev) {}
-
 dev_t* dev_get(const char* name) {
   board_t* board = get_board();
 
@@ -52,18 +46,4 @@ dev_t* dev_get(const char* name) {
   }
 
   return NULL;
-}
-
-bool dev_has_tag(dev_t* dev, const char* tag) {
-  if (!dev) {
-    return false;
-  }
-
-  for (u32 i = 0; i < DEV_TAG_MAX; ++i) {
-    if (dev->tags[i] && !strcmp(dev->tags[i], tag)) {
-      return true;
-    }
-  }
-
-  return false;
 }
